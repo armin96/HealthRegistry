@@ -100,18 +100,52 @@ async function run() {
         const cols = ["clinical_history", "test_reports", "system_audit"];
         for (const c of cols) {
             await db.collection(c).drop().catch(() => { });
-            const count = rand(180, 220);
-            const data = Array.from({ length: count }).map(() => ({
-                patient_id: pick(pat_ids),
-                doctor_id: pick(doc_ids),
-                timestamp: new Date(),
-                action: pick(["Check-in", "Vitals Update", "History Review", "Lab Upload"]),
-                actor_role: pick(["Admin", "Nurse", "Doctor"]),
-                target_type: "System",
-                info: "Seeded"
-            }));
-            await db.collection(c).insertMany(data);
         }
+
+        const clinicalData = Array.from({ length: rand(180, 220) }).map(() => ({
+            patient_id: pick(pat_ids),
+            doctor_id: pick(doc_ids),
+            visit_date: new Date(Date.now() - rand(0, 10000000000)),
+            chief_complaint: pick(["Headache", "Fever", "Cough", "Back Pain", "Fatigue", "Nausea"]),
+            diagnosis: [pick(["Migraine", "Flu", "Bronchitis", "Muscle Strain", "Anemia", "Gastritis"])],
+            vitals: {
+                blood_pressure: `${rand(110, 140)}/${rand(70, 90)}`,
+                heart_rate: rand(60, 100),
+                weight_kg: rand(50, 100)
+            }
+        }));
+        await db.collection("clinical_history").insertMany(clinicalData);
+
+        const labData = Array.from({ length: rand(180, 220) }).map(() => ({
+            patient_id: pick(pat_ids),
+            doctor_id: pick(doc_ids),
+            test_name: pick(["Complete Blood Count", "Lipid Panel", "Metabolic Panel", "Liver Function"]),
+            status: pick(["final", "pending", "completed"]),
+            ordered_at: new Date(Date.now() - rand(1000000, 10000000000)),
+            resulted_at: new Date(),
+            results: {
+                "WBC": (rand(40, 110)/10).toString() + " K/uL",
+                "RBC": (rand(40, 60)/10).toString() + " M/uL",
+                "Hemoglobin": rand(12, 18).toString() + " g/dL"
+            }
+        }));
+        await db.collection("test_reports").insertMany(labData);
+
+        const auditData = Array.from({ length: rand(180, 220) }).map(() => ({
+            actor_id: pick(doc_ids),
+            actor_role: pick(["Admin", "Nurse", "Doctor"]),
+            timestamp: new Date(),
+            action: pick(["Check-in", "Vitals Update", "History Review", "Lab Upload"]),
+            target_type: "System",
+            info: "Seeded"
+        }));
+        await db.collection("system_audit").insertMany(auditData);
+        // Create Indexes for Performance (as claimed in the report)
+        console.log("Creating NoSQL Indexes...");
+        await db.collection("clinical_history").createIndex({ patient_id: 1 });
+        await db.collection("test_reports").createIndex({ patient_id: 1 });
+        await db.collection("system_audit").createIndex({ actor_id: 1, timestamp: -1 });
+
         await m.close();
         console.log("SUCCESS: 100% UNIQUE GLOBALIZED DATA READY.");
 
