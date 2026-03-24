@@ -1,0 +1,20 @@
+{
+  "name": "healthdb-app",
+  "version": "1.0.0",
+  "description": "HealthDB — Node.js Application Layer (MySQL + MongoDB)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "setup": "node reset_db.js",
+    "sql": "node sqlOperations.js",
+    "nosql": "node nosqlOperations.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "mongodb": "^6.5.0",
+    "morgan": "^1.10.1",
+    "mysql2": "^3.9.0"
+  }
+}

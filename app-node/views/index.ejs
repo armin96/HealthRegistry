@@ -1,0 +1,142 @@
+<%- include('partials/header') %>
+
+<header>
+    <h2>Health Dashboard</h2>
+</header>
+
+<div class="grid">
+    <div class="card stat-card">
+        <span class="stat-val"><%= stats.patients %></span>
+        <span class="stat-label">Total Patients</span>
+    </div>
+    <div class="card stat-card">
+        <span class="stat-val"><%= stats.doctors %></span>
+        <span class="stat-label">Authorized Doctors</span>
+    </div>
+    <div class="card stat-card">
+        <span class="stat-val"><%= stats.appointments %></span>
+        <span class="stat-label">Active Appts</span>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1.2fr;">
+    <section>
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem;">Recent Appointments</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(apt => { %>
+                        <tr>
+                            <td><strong><%= apt.patient_name %></strong></td>
+                            <td>Dr. <%= apt.doctor_name.replace('Dr. ', '') %></td>
+                            <td style="color: var(--text-secondary);"><%= new Date(apt.scheduled_at).toLocaleDateString() %></td>
+                            <td><span class="badge badge-warning">Scheduled</span></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                Automated Transitions
+                <span style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 500;">SQL TRIGGER</span>
+            </h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transition ID</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Triggered At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TRN-001</td>
+                            <td>Appointment Reminder</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                            <td style="color: var(--text-secondary);">2023-10-26 09:00 AM</td>
+                        </tr>
+                        <tr>
+                            <td>TRN-002</td>
+                            <td>Patient Follow-up</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                            <td style="color: var(--text-secondary);">2023-10-26 10:30 AM</td>
+                        </tr>
+                        <tr>
+                            <td>TRN-003</td>
+                            <td>Prescription Refill</td>
+                            <td><span class="badge badge-danger">Failed</span></td>
+                            <td style="color: var(--text-secondary);">2023-10-25 04:15 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                Provider Performance
+                <span style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 500;">MYSQL</span>
+            </h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Specialization</th>
+                            <th>Total Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% topDoctors.forEach(doc => { %>
+                        <tr>
+                            <td><strong><%= doc.full_name %></strong></td>
+                            <td style="color: var(--text-secondary);"><%= doc.specialization %></td>
+                            <td><span class="badge badge-success"><%= doc.total_appts %> Visits</span></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <aside-card class="card">
+        <header>
+        <h2 style="display: flex; align-items: center; gap: 12px;">
+            System Audit Trail
+        </h2>
+    </header>    
+        <div class="audit-list">
+            <% auditLogs.forEach(log => { %>
+                <div class="audit-item">
+                    <span class="audit-action"><%= log.action.replace(/_/g, ' ').toUpperCase() %></span>
+                    <div class="audit-meta">
+                        <%= new Date(log.timestamp).toLocaleTimeString() %> • <%= log.target_type %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="/audit" class="btn" style="width: 100%; justify-content: center;">
+                Full System logs
+            </a>
+        </div>
+    </aside-card>
+</div>
+
+<%- include('partials/footer') %>

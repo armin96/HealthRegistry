@@ -1,0 +1,87 @@
+<%- include('partials/header') %>
+
+    <header>
+        <h2>System Audit Trail</h2>
+    </header>
+
+    <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: start;">
+
+        <!-- SQL LOGS -->
+        <div class="card">
+            <h3 style="margin-bottom: 2rem;">Automated Transitions</h3>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Transition</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% sqlLogs.forEach(log=> { %>
+                            <tr>
+                                <td style="color: var(--accent);">#<%= log.appt_id %>
+                                </td>
+                                <td>
+                                    <span style="font-size: 0.8rem; color: var(--text-secondary);">
+                                        <%= log.old_status %>
+                                    </span>
+                                    <span style="color: var(--accent); margin: 0 4px;">&rarr;</span>
+                                    <span class="badge badge-success">
+                                        <%= log.new_status %>
+                                    </span>
+                                </td>
+                                <td style="font-size:0.8rem; color:var(--text-secondary);">
+                                    <%= new Date(log.changed_at).toLocaleTimeString() %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% if(sqlLogs.length===0) { %>
+                                    <tr>
+                                        <td colspan="3"
+                                            style="text-align:center; padding: 2rem; color:var(--text-secondary);">No
+                                            trigger events logged yet.</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- NOSQL LOGS -->
+        <div class="card">
+            <h3 style="margin-bottom: 2rem;">Clinical Activity</h3>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Target</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% nosqlLogs.forEach(log=> { %>
+                            <tr>
+                                <td><strong style="color:var(--accent);">
+                                        <%= log.action.replace(/_/g, ' ' ).toUpperCase() %>
+                                    </strong></td>
+                                <td style="color: var(--text-secondary);">
+                                    <%= log.target_type %>
+                                </td>
+                                <td><span class="badge" style="background: var(--primary-bg); color: var(--text-primary); border: 1px solid var(--border);">
+                                        <%= log.actor_role %>
+                                    </span></td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('partials/footer') %>

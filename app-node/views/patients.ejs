@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+    <header>
+        <h2>Patient Explorer</h2>
+    </header>
+
+    <div class="card" style="padding: 0;">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Blood Type</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% patients.forEach(p=> { %>
+                        <tr>
+                            <td style="color: var(--text-secondary); width: 80px;">#<%= p.patient_id %>
+                            </td>
+                            <td><strong style="font-size: 1.05rem;">
+                                    <%= p.full_name %>
+                                </strong></td>
+                            <td>
+                                <%= p.gender.charAt(0).toUpperCase() + p.gender.slice(1) %>
+                            </td>
+                            <td><span class="badge badge-success">
+                                    <%= p.blood_type %>
+                                </span></td>
+                            <td style="text-align: right;">
+                                <a href="/patients/<%= p.patient_id %>" class="btn"
+                                    style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                    View Records &rarr;
+                                </a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
