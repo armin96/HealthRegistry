@@ -16,7 +16,7 @@ A production-ready, hybrid database platform that demonstrates Polyglot Persiste
 
 ##  Overview
 The Health Registry is designed to handle the dual nature of modern medical records:
-- Administrative Logic (SQL): Patient IDs, Doctor scheduling, Departments, and Prescriptions — where ACID compliance and strict relations are paramount.
+- Administrative Logic (SQL): Patient IDs, Doctor scheduling, Departments, and Prescriptions — where ACID compliance and strict relations are paramount..
 - Clinical Flexibility (NoSQL): Medical history, diverse lab reports, and system-wide audit logs — where schema-less flexibility allows for varied data collected at the point of care.
 
 ---
