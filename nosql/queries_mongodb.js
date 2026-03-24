@@ -10,11 +10,11 @@ async function runQueries() {
         const db = client.db(MONGO_DB);
         console.log(`Connected to MongoDB: ${MONGO_DB}\n`);
 
-        const oneRecord = await db.collection("medical_records").findOne({});
+        const oneRecord = await db.collection("clinical_history").findOne({});
         console.log("--- 1. Sample Clinical Record ---");
         console.log(JSON.stringify(oneRecord, null, 2), "\n");
 
-        const commonDiagnoses = await db.collection("medical_records").aggregate([
+        const commonDiagnoses = await db.collection("clinical_history").aggregate([
             { $unwind: "$diagnosis" },
             { $group: { _id: "$diagnosis", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
@@ -23,20 +23,20 @@ async function runQueries() {
         console.log("--- 2. Top Diagnoses Aggregate ---");
         console.dir(commonDiagnoses);
 
-        const turnaround = await db.collection("lab_results").aggregate([
+        const turnaround = await db.collection("test_reports").aggregate([
             { $group: { _id: "$test_name", avg_days: { $sum: 1 } } }
         ]).toArray();
         console.log("\n--- 3. Lab Test Distribution ---");
         console.dir(turnaround);
 
-        const auditStats = await db.collection("audit_logs").aggregate([
+        const auditStats = await db.collection("system_audit").aggregate([
             { $group: { _id: "$action", total: { $sum: 1 } } },
             { $sort: { total: -1 } }
         ]).toArray();
         console.log("\n--- 4. Audit Log Statistics ---");
         console.dir(auditStats);
 
-        const hyperPatients = await db.collection("medical_records")
+        const hyperPatients = await db.collection("clinical_history")
             .find({ diagnosis: "Hypertension" })
             .project({ patient_id: 1, _id: 0 })
             .toArray();
