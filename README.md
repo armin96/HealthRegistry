@@ -1,13 +1,13 @@
 
 
-# Health Registry: Hybrid Database Implementation, SQL and NoSQL 
+# Health Registry: Hybrid Database Implementation SQL and NoSQL 
 
-Name : Seyedarmin Hosseinilargani --
+Name : Seyedarmin Hosseinilargani <br>
 Student ID: GH1042143
 
 
 
-A production-ready, hybrid database platform that demonstrates Polyglot Persistence, integrating MySQL 8 for structured administrative data and MongoDB 7 for semi-structured clinical documentation.
+A  hybrid database platform that demonstrates Polyglot Persistence, integrating MySQL 8 for structured administrative data and MongoDB 7 for semi-structured clinical documentation.
 
 
 
