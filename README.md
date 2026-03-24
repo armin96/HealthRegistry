@@ -45,7 +45,7 @@ cd app-node
 npm install
 ```
 
-### 3. Initialize & Seed Database (Crucial Step)
+### 3. Initialize & Seed Database 
 This script will drop existing schemas, recreate them, and populate the system with a massive, unique dataset of **1,900+ records**.
 ```bash
 npm run setup
