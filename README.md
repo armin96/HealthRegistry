@@ -2,7 +2,7 @@
 
 # Health Registry: Hybrid Database Implementation SQL and NoSQL 
 
-<img width="650" height="437" alt="helth" src="https://github.com/user-attachments/assets/7e4fc133-d9fb-4ad4-8925-86288415fc5f" />
+<img width="650" height="440" alt="helth" src="https://github.com/user-attachments/assets/6f7d9aff-6f20-4467-aeaf-3ee064bd3cfe" />
 
 
 
