@@ -2,8 +2,7 @@
 
 # Health Registry: Hybrid Database Implementation SQL and NoSQL 
 
-Name : Seyedarmin Hosseinilargani <br>
-Student ID: GH1042143
+<img width="650" height="437" alt="helth" src="https://github.com/user-attachments/assets/7e4fc133-d9fb-4ad4-8925-86288415fc5f" />
 
 
 
